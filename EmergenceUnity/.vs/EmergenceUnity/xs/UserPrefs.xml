@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{E6E58030-1037-B5F4-CD48-074E2529CE42}|">
+  <MonoDevelop.Ide.ItemProperties.EmergenceUnity PreferredExecutionTarget="0e3e5fe4-ea0d-4b2d-81a7-da57bb1c7552" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/OnOff.cs">
+    <Files>
+      <File FileName="Assets/Scripts/OnOff.cs" Line="48" Column="37" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="EmergenceUnity" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
