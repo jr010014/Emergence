@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{E6E58030-1037-B5F4-CD48-074E2529CE42}|">
-  <MonoDevelop.Ide.ItemProperties.EmergenceUnity PreferredExecutionTarget="0e3e5fe4-ea0d-4b2d-81a7-da57bb1c7552" />
+  <MonoDevelop.Ide.ItemProperties.EmergenceUnity PreferredExecutionTarget="c47230ef-8cfc-4eaa-8b0f-daed4f482374" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/OnOff.cs">
     <Files>
       <File FileName="Assets/Scripts/OnOff.cs" Line="48" Column="37" />
@@ -7,7 +7,13 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="EmergenceUnity" expanded="True" selected="True" />
+          <Node name="EmergenceUnity" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="OnOff.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
         </State>
       </Pad>
     </Pads>
