@@ -7,6 +7,9 @@ public class OnOff : MonoBehaviour
     //assign cube prefab as element for grid
 	public GameObject cube;
 
+    public int width = 10;
+    public int height = 10;
+
     //declare array for grid
 	public GameObject[,] grid = new GameObject[10, 10];
 
@@ -38,7 +41,7 @@ public class OnOff : MonoBehaviour
 
 	void Update()
 	{
-        //variable for number of cube prefabs that have mesh renderer on
+        //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
 		int numberOn;
 
         //checks how many cube prefab mesh renderes are on
@@ -46,15 +49,16 @@ public class OnOff : MonoBehaviour
 		{
 			for (int j = 0; j < 10; j++)
 			{
+                //returns number of cube prefab mesh renderes are on next to each element in the grid array
 				numberOn = CheckOnOff(i, j);
                 Debug.Log(numberOn);
-                //execute rules
+                ExecuteRules(numberOn, i, j);
 			}
 
 		}
 	}
 
-    //Determines how many cubes are on or off
+    //Determines how many cubes are on or off relative to each each cube element in the grid array
     public int CheckOnOff(int x, int y)
 	{
 		int count = 0;
@@ -106,4 +110,29 @@ public class OnOff : MonoBehaviour
 
         return count;
 	}
+
+    public void ExecuteRules(int numberOn, int x, int y)
+    {
+        //Rule 1: Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+        if (numberOn < 2)
+        {
+            grid[x, y].GetComponent<MeshRenderer>().enabled = false;
+        }
+        //Rule 2: Any live cell with two or three live neighbours lives on to the next generation.
+        if (numberOn == 2 || numberOn == 3)
+        {
+            grid[x, y].GetComponent<MeshRenderer>().enabled = true;
+        }
+        //Rule 3: Any live cell with more than three live neighbours dies, as if by overpopulation.
+        if (numberOn > 3)
+        {
+            grid[x, y].GetComponent<MeshRenderer>().enabled = false;
+        }
+        //Rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+        if (numberOn > 3 && grid[x, y].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[x, y].GetComponent<MeshRenderer>().enabled = true;
+        }
+    }
+
 }
