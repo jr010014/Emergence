@@ -25,7 +25,6 @@ public class OnOff : MonoBehaviour
             for (int j = 0; j < 10; j++)
             {
                 Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
-                //grid[i,j] = Instantiate(cube.transform, gridPose, Quaternion.identity);
                 grid[i, j] = Instantiate(cube);
                 grid[i, j].transform.Translate(gridPose);
 
@@ -45,7 +44,7 @@ public class OnOff : MonoBehaviour
 
     void Update()
     {
-        if (speed % 5 == 0)
+        if (speed % 10 == 0)
         {
             //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
             int numberOn;
