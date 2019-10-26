@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OnOff : MonoBehaviour
 {
@@ -146,19 +147,16 @@ public class OnOff : MonoBehaviour
         if (numberOn < 2 && grid[x, y].GetComponent<MeshRenderer>().enabled == true)
         {
             tempGrid[x, y] = false;
-            //grid[x, y].GetComponent<MeshRenderer>().enabled = false;
         }
         //Rule 3: Any live cell with more than three live neighbours dies, as if by overpopulation.
         if (numberOn > 3 && grid[x, y].GetComponent<MeshRenderer>().enabled == true)
         {
             tempGrid[x, y] = false;
-            //grid[x, y].GetComponent<MeshRenderer>().enabled = false;
         }
         //Rule 4: Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
         if (numberOn == 3 && grid[x, y].GetComponent<MeshRenderer>().enabled == false)
         {
             tempGrid[x, y] = true;
-            //grid[x, y].GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
