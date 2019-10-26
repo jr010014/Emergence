@@ -6,6 +6,7 @@ public class OnOff : MonoBehaviour
 {
     //assign cube prefab as element for grid
     public GameObject cube;
+    public Camera mainCam;
 
     //grid size: width and height
     public int width = 10;
@@ -22,6 +23,10 @@ public class OnOff : MonoBehaviour
 
     void Start()
     {
+        SelectParameters();
+
+        mainCam.transform.position = new Vector3(((width*3)-2)/2, ((height*3)-2)/2, -20);
+
         //initilaize grid size
         grid = new GameObject[width, height];
         tempGrid = new bool[width, height];
@@ -72,6 +77,12 @@ public class OnOff : MonoBehaviour
         FillArray();
         }
         timeCount++;
+
+    }
+
+
+    public void SelectParameters()
+    {
 
     }
 
