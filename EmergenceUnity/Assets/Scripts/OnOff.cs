@@ -7,18 +7,23 @@ public class OnOff : MonoBehaviour
     //assign cube prefab as element for grid
     public GameObject cube;
 
+    //grid size: width and height
     public int width = 10;
     public int height = 10;
 
     //declare array for grid
-    public GameObject[,] grid = new GameObject[10, 10];
-    public bool[,] tempGrid = new bool[10,10];
+    public GameObject[,] grid;
+    public bool[,] tempGrid;
 
     //speed of evolution
     public int speed = 0;
 
     void Start()
     {
+        //initilaize grid size
+        grid = new GameObject[width, height];
+        tempGrid = new bool[width, height];
+
         //fill each element of grid array with cube prefab
         for (int i = 0; i < 10; i++)
         {
