@@ -15,8 +15,10 @@ public class OnOff : MonoBehaviour
     public GameObject[,] grid;
     public bool[,] tempGrid;
 
+    //counts time
+    public int timeCount = 0;
     //speed of evolution
-    public int speed = 0;
+    public int speedOfEvolution = 5;
 
     void Start()
     {
@@ -25,9 +27,9 @@ public class OnOff : MonoBehaviour
         tempGrid = new bool[width, height];
 
         //fill each element of grid array with cube prefab
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < height; j++)
             {
                 Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
                 grid[i, j] = Instantiate(cube);
@@ -49,15 +51,15 @@ public class OnOff : MonoBehaviour
 
     void Update()
     {
-        if (speed % 10 == 0)
+        if (timeCount % speedOfEvolution == 0)
         {
             //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
             int numberOn;
 
             //checks how many cube prefab mesh renderes are on
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < width; i++)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < height; j++)
                 {
                     //returns number of cube prefab mesh renderes are on next to each element in the grid array
                     numberOn = CheckOnOff(i, j);
@@ -69,7 +71,7 @@ public class OnOff : MonoBehaviour
             }
         FillArray();
         }
-        speed++;
+        timeCount++;
 
     }
 
@@ -79,11 +81,11 @@ public class OnOff : MonoBehaviour
         int count = 0;
 
         //boundaries
-        if (x == 0 || x == 9)
+        if (x == 0 || x == (width-1))
         {
             return 0;
         }
-        if (y == 0 || y == 9)
+        if (y == 0 || y == (height-1))
         {
             return 0;
         }
@@ -151,9 +153,9 @@ public class OnOff : MonoBehaviour
 
     public void FillArray()
     { 
-        for (int x = 0; x< 10; x++)
+        for (int x = 0; x< width; x++)
         {
-            for (int y = 0; y< 10; y++)
+            for (int y = 0; y< height; y++)
             {
                 grid[x, y].GetComponent<MeshRenderer>().enabled = tempGrid[x, y];
             }
