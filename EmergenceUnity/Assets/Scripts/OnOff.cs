@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class OnOff : MonoBehaviour
 {
+    public bool begin = false;
+
     //assign cube prefab as element for grid
     public GameObject cube;
     public Camera mainCam;
@@ -21,6 +23,10 @@ public class OnOff : MonoBehaviour
     public int timeCount = 0;
     //speed of evolution
     public int speedOfEvolution = 5;
+
+    //UI elements
+    public Text widthText;
+    public Text heightText;
 
     void Start()
     {
@@ -57,34 +63,39 @@ public class OnOff : MonoBehaviour
 
     void Update()
     {
-        if (timeCount % speedOfEvolution == 0)
+        if(begin == true)
         {
-            //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
-            int numberOn;
-
-            //checks how many cube prefab mesh renderes are on
-            for (int i = 0; i < width; i++)
+            if (timeCount % speedOfEvolution == 0)
             {
-                for (int j = 0; j < height; j++)
-                {
-                    //returns number of cube prefab mesh renderes are on next to each element in the grid array
-                    numberOn = CheckOnOff(i, j);
-                    Debug.Log(numberOn);
-                    ExecuteRules(numberOn, i, j);
-          
-                }
+                //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
+                int numberOn;
 
+                //checks how many cube prefab mesh renderes are on
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        //returns number of cube prefab mesh renderes are on next to each element in the grid array
+                        numberOn = CheckOnOff(i, j);
+                        Debug.Log(numberOn);
+                        ExecuteRules(numberOn, i, j);
+
+                    }
+
+                }
+                FillArray();
             }
-        FillArray();
+            timeCount++;
+
         }
-        timeCount++;
 
     }
 
 
     public void SelectParameters()
     {
-
+        widthText.text = "Width = " + width;
+        heightText.text = "Height = " + height;
     }
 
     //Determines how many cubes are on or off relative to each each cube element in the grid array
