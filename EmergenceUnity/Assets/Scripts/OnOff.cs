@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 public class OnOff : MonoBehaviour
 {
     public bool begin = false;
+    public bool initialized = false;
 
     //assign cube prefab as element for grid
     public GameObject cube;
@@ -27,44 +29,64 @@ public class OnOff : MonoBehaviour
     //UI elements
     public Text widthText;
     public Text heightText;
+    public Slider widthSlider;
+    public Slider heightSlider;
+    //public Button beginButton;
 
     void Start()
     {
-        SelectParameters();
+    
 
-        mainCam.transform.position = new Vector3(((width*3)-2)/2, ((height*3)-2)/2, -20);
-
-        //initilaize grid size
-        grid = new GameObject[width, height];
-        tempGrid = new bool[width, height];
-
-        //fill each element of grid array with cube prefab
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
-                grid[i, j] = Instantiate(cube);
-                grid[i, j].transform.Translate(gridPose);
-
-                //randomly generate a new grid with some prefabs rendered and others not (on and off)
-                int randomSeed = Random.Range(0, 2);
-                if (randomSeed == 0)
-                {
-                    grid[i, j].GetComponent<MeshRenderer>().enabled = true;
-                }
-                else
-                {
-                    grid[i, j].GetComponent<MeshRenderer>().enabled = false;
-                }
-            }
-        }
     }
 
     void Update()
     {
+        if(initialized == false)
+        {
+
+            SelectParameters();
+
+        }
+
         if(begin == true)
         {
+            if(initialized == true)
+            {
+                mainCam.transform.position = new Vector3(((width * 3) - 2) / 2, ((height * 3) - 2) / 2, (width+height)*-1);
+
+                //initilaize grid size
+                grid = new GameObject[width, height];
+                tempGrid = new bool[width, height];
+
+                //fill each element of grid array with cube prefab
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
+                        grid[i, j] = Instantiate(cube);
+                        grid[i, j].transform.Translate(gridPose);
+
+                        //randomly generate a new grid with some prefabs rendered and others not (on and off)
+                        int randomSeed = UnityEngine.Random.Range(0, 2);
+                        if (randomSeed == 0)
+                        {
+                            grid[i, j].GetComponent<MeshRenderer>().enabled = true;
+                        }
+                        else
+                        {
+                            grid[i, j].GetComponent<MeshRenderer>().enabled = false;
+                        }
+                    }
+
+                }
+
+            initialized = false;
+
+            }
+
+
+
             if (timeCount % speedOfEvolution == 0)
             {
                 //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
@@ -94,8 +116,14 @@ public class OnOff : MonoBehaviour
 
     public void SelectParameters()
     {
+        width = Convert.ToInt32(widthSlider.value);
+        height = Convert.ToInt32(heightSlider.value);
+
         widthText.text = "Width = " + width;
         heightText.text = "Height = " + height;
+
+        
+
     }
 
     //Determines how many cubes are on or off relative to each each cube element in the grid array
@@ -180,6 +208,12 @@ public class OnOff : MonoBehaviour
                 grid[x, y].GetComponent<MeshRenderer>().enabled = tempGrid[x, y];
             }
         }
+    }
+
+    public void OnButtonClicked()
+    {
+        begin = true;
+        initialized = true;
     }
 
 }
