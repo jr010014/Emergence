@@ -117,6 +117,25 @@ public class OnOff : MonoBehaviour
                 }
                 FillArray();
             }
+
+            if (timeCount != 0 && timeCount % 20 == 0)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        if (grid[i, j].GetComponent<Renderer>().material == violet)
+                        {
+                            grid[i, j].GetComponent<Renderer>().material = indigo;
+                        }
+                        if (grid[i, j].GetComponent<Renderer>().material == indigo)
+                        {
+                            grid[i, j].GetComponent<Renderer>().material = blue;
+                        }
+                    }
+                }
+            }
+
             timeCount++;
 
         }
