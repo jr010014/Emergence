@@ -33,6 +33,15 @@ public class OnOff : MonoBehaviour
     public Slider heightSlider;
     //public Button beginButton;
 
+    //material colors
+    public Material violet;
+    public Material indigo;
+    public Material blue;
+    public Material green;
+    public Material yellow;
+    public Material orange;
+    public Material red;
+
     void Start()
     {
     
@@ -66,6 +75,7 @@ public class OnOff : MonoBehaviour
                         Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
                         grid[i, j] = Instantiate(cube);
                         grid[i, j].transform.Translate(gridPose);
+                        grid[i, j].GetComponent<Renderer>().material = violet;
 
                         //randomly generate a new grid with some prefabs rendered and others not (on and off)
                         int randomSeed = UnityEngine.Random.Range(0, 2);

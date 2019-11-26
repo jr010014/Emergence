@@ -1587,3 +1587,4 @@ MonoBehaviour:
   heightText: {fileID: 1259083479}
   widthSlider: {fileID: 788389375}
   heightSlider: {fileID: 703992805}
+  purple: {fileID: 2100000, guid: 8d77be3da8c91434ca63d67533e90631, type: 2}
