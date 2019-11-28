@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class OnOff : MonoBehaviour
 {
     public bool begin = false;
-    public bool initialized = false;
+    public bool ranOnce = false;
 
     //assign cube prefab as element for grid
     public GameObject cube;
@@ -24,13 +24,15 @@ public class OnOff : MonoBehaviour
     //counts time
     public int timeCount = 0;
     //speed of evolution
-    public int speedOfEvolution = 5;
+    public int lengthOfEra = 50;
 
     //UI elements
     public Text widthText;
     public Text heightText;
+    public Text eraText;
     public Slider widthSlider;
     public Slider heightSlider;
+    public Slider eraSlider;
     //public Button beginButton;
 
     //material colors
@@ -49,20 +51,22 @@ public class OnOff : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if(initialized == false)
+        if(begin == false)
         {
 
             SelectParameters();
 
         }
 
-        if(begin == true)
+        if (begin == true)
         {
-            if(initialized == true)
+            
+            //set up
+            if(ranOnce == false)
             {
-                mainCam.transform.position = new Vector3(((width * 3) - 2) / 2, ((height * 3) - 2) / 2, (width+height)*-1);
+                mainCam.transform.position = new Vector3(((width * 3) - 2) / 2, ((height * 3) - 2) / 2, (width + height) * -1);
 
                 //initilaize grid size
                 grid = new GameObject[width, height];
@@ -77,7 +81,7 @@ public class OnOff : MonoBehaviour
                         grid[i, j] = Instantiate(cube);
                         grid[i, j].transform.Translate(gridPose);
                         //grid[i, j].GetComponent<Renderer>().material = violet;
-                       
+
 
                         //randomly generate a new grid with some prefabs rendered and others not (on and off)
                         int randomSeed = UnityEngine.Random.Range(0, 2);
@@ -90,16 +94,13 @@ public class OnOff : MonoBehaviour
                             grid[i, j].GetComponent<MeshRenderer>().enabled = false;
                         }
                     }
-
                 }
-
-            initialized = false;
-
+                ranOnce = true;
             }
 
+            CheckColors();
 
-
-            if (timeCount % speedOfEvolution == 0)
+            if (timeCount % lengthOfEra == 0)
             {
                 //variable for number of cube prefabs that have mesh renderer on relative to each element in the grid array
                 int numberOn;
@@ -111,99 +112,39 @@ public class OnOff : MonoBehaviour
                     {
                         //returns number of cube prefab mesh renderes are on next to each element in the grid array
                         numberOn = CheckOnOff(i, j);
-                        Debug.Log(numberOn);
-                        ExecuteRules(numberOn, i, j);
-
-                    }
-
+                        //if (grid[i, j].GetComponent<Renderer>().material == violet)
+                        //{
+                            ExecuteLifeRules(numberOn, i, j);
+                            Debug.Log("here");
+                        //}
+                        }
                 }
                 FillArray();
             }
-
-            if (timeCount == 0)
-            {
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = violet;
-                    }   
-                }
-                lastMaterial = violet;
-            }
-            else
-            {
-
-                /* for (int i = 0; i < width; i++)
-                 {
-                     for (int j = 0; j < height; j++)
-                     {
-                         if (grid[i, j].GetComponent<Renderer>().material == violet)
-                         {
-                             grid[i, j].GetComponent<Renderer>().material = indigo;
-                         }
-                         else if (grid[i, j].GetComponent<Renderer>().material == indigo)
-                         {
-                             grid[i, j].GetComponent<Renderer>().material = blue;
-                         }
-                     }
-                 }
-                 */
-                if (lastMaterial == violet && timeCount > 30)
-                {
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                            grid[i, j].GetComponent<Renderer>().material = indigo;
-                        }
-                    }
-                    lastMaterial = indigo;
-                }
-                else if(lastMaterial == indigo && timeCount > 60)
-                {
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                            grid[i, j].GetComponent<Renderer>().material = blue;
-                        }
-                    }
-                    lastMaterial = blue;
-                }
-                else if (lastMaterial == blue && timeCount > 90)
-                {
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                            grid[i, j].GetComponent<Renderer>().material = green;
-                        }
-                    }
-                    lastMaterial = green;
-                }
-            }
-
             timeCount++;
-
         }
+            
+        
 
     }
+    
 
-
+    //allows user to select parameter via the user interface
     public void SelectParameters()
     {
         width = Convert.ToInt32(widthSlider.value);
         height = Convert.ToInt32(heightSlider.value);
+        lengthOfEra = Convert.ToInt32(eraSlider.value);
 
         widthText.text = "Width = " + width;
         heightText.text = "Height = " + height;
+        eraText.text = "Length of Era = " + lengthOfEra;
 
         
 
     }
 
-    //Determines how many cubes are on or off relative to each each cube element in the grid array
+    //Determines how many cubes are on or off relative to each each cube element in the grid array add returns that number to int count
     public int CheckOnOff(int x, int y)
     {
         int count = 0;
@@ -257,7 +198,8 @@ public class OnOff : MonoBehaviour
         return count;
     }
 
-    public void ExecuteRules(int numberOn, int x, int y)
+    //executes rules to determine if cells/cubes should be on or off for next generation and loads on or off bool values into a seperate grid array without alterting current generation
+    public void ExecuteLifeRules(int numberOn, int x, int y)
     {
         //Rule 1: Any live cell with fewer than two live neighbours dies, as if by underpopulation.
         if (numberOn < 2 && grid[x, y].GetComponent<MeshRenderer>().enabled == true)
@@ -276,6 +218,7 @@ public class OnOff : MonoBehaviour
         }
     }
 
+    //adjust new grid based on population of old grid
     public void FillArray()
     { 
         for (int x = 0; x< width; x++)
@@ -286,11 +229,98 @@ public class OnOff : MonoBehaviour
             }
         }
     }
-
+    
     public void OnButtonClicked()
     {
+        timeCount = 0;  //resets timeCount in the case that the user resets the game
         begin = true;
-        initialized = true;
+    }
+    
+
+    //determine if colors of cubes should be changed and if so, change them
+    public void CheckColors()
+    {
+        if (timeCount == 0)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    grid[i, j].GetComponent<Renderer>().material = violet;
+                }
+            }
+            lastMaterial = violet;
+        }
+        else
+        {
+            if (lastMaterial == violet && timeCount > 30)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = indigo;
+                    }
+                }
+                lastMaterial = indigo;
+            }
+            else if (lastMaterial == indigo && timeCount > 60)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = blue;
+                    }
+                }
+                lastMaterial = blue;
+            }
+            else if (lastMaterial == blue && timeCount > 90)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = green;
+                    }
+                }
+                lastMaterial = green;
+            }
+            else if (lastMaterial == green && timeCount > 120)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = yellow;
+                    }
+                }
+                lastMaterial = yellow;
+            }
+            else if (lastMaterial == yellow && timeCount > 150)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = orange;
+                    }
+                }
+                lastMaterial = orange;
+            }
+            else if (lastMaterial == orange && timeCount > 180)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = red;
+                    }
+                }
+                lastMaterial = red;
+            }
+        }
+        
     }
 
 }
