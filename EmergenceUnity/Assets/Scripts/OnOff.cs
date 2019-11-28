@@ -41,6 +41,7 @@ public class OnOff : MonoBehaviour
     public Material yellow;
     public Material orange;
     public Material red;
+    public Material lastMaterial;
 
     void Start()
     {
@@ -48,7 +49,7 @@ public class OnOff : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(initialized == false)
         {
@@ -75,7 +76,8 @@ public class OnOff : MonoBehaviour
                         Vector2 gridPose = new Vector2(i * 2.0f, j * 2.0f);
                         grid[i, j] = Instantiate(cube);
                         grid[i, j].transform.Translate(gridPose);
-                        grid[i, j].GetComponent<Renderer>().material = violet;
+                        //grid[i, j].GetComponent<Renderer>().material = violet;
+                       
 
                         //randomly generate a new grid with some prefabs rendered and others not (on and off)
                         int randomSeed = UnityEngine.Random.Range(0, 2);
@@ -118,21 +120,67 @@ public class OnOff : MonoBehaviour
                 FillArray();
             }
 
-            if (timeCount != 0 && timeCount % 20 == 0)
+            if (timeCount == 0)
             {
                 for (int i = 0; i < width; i++)
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        if (grid[i, j].GetComponent<Renderer>().material == violet)
+                        grid[i, j].GetComponent<Renderer>().material = violet;
+                    }   
+                }
+                lastMaterial = violet;
+            }
+            else
+            {
+
+                /* for (int i = 0; i < width; i++)
+                 {
+                     for (int j = 0; j < height; j++)
+                     {
+                         if (grid[i, j].GetComponent<Renderer>().material == violet)
+                         {
+                             grid[i, j].GetComponent<Renderer>().material = indigo;
+                         }
+                         else if (grid[i, j].GetComponent<Renderer>().material == indigo)
+                         {
+                             grid[i, j].GetComponent<Renderer>().material = blue;
+                         }
+                     }
+                 }
+                 */
+                if (lastMaterial == violet && timeCount > 30)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
                         {
                             grid[i, j].GetComponent<Renderer>().material = indigo;
                         }
-                        if (grid[i, j].GetComponent<Renderer>().material == indigo)
+                    }
+                    lastMaterial = indigo;
+                }
+                else if(lastMaterial == indigo && timeCount > 60)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
                         {
                             grid[i, j].GetComponent<Renderer>().material = blue;
                         }
                     }
+                    lastMaterial = blue;
+                }
+                else if (lastMaterial == blue && timeCount > 90)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        for (int j = 0; j < height; j++)
+                        {
+                            grid[i, j].GetComponent<Renderer>().material = green;
+                        }
+                    }
+                    lastMaterial = green;
                 }
             }
 
