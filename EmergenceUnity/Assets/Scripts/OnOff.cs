@@ -260,35 +260,35 @@ public class OnOff : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (grid[i, j].GetComponent<Renderer>().material == violet && timeCount > 30)
+                    if (grid[i, j].GetComponent<Renderer>().material == orange && timeCount > 180)
                     {
-                        grid[i, j].GetComponent<Renderer>().material = indigo;
-                        Debug.Log("turned indigo");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().material == indigo && timeCount > 60)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = blue;
-                        Debug.Log("turned blue");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().material == blue && timeCount > 90)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = green;
-                        Debug.Log("turned green");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().material == green && timeCount > 120)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = yellow;
-                        Debug.Log("turned yellow");
+                        grid[i, j].GetComponent<Renderer>().material = red;
+                        Debug.Log("turned red");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().material == yellow && timeCount > 150)
                     {
                         grid[i, j].GetComponent<Renderer>().material = orange;
                         Debug.Log("turned orange");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == orange && timeCount > 180)
+                    else if (grid[i, j].GetComponent<Renderer>().material == green && timeCount > 120)
                     {
-                        grid[i, j].GetComponent<Renderer>().material = red;
-                        Debug.Log("turned red");
+                        grid[i, j].GetComponent<Renderer>().material = yellow;
+                        Debug.Log("turned yellow");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().material == blue && timeCount > 90)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = green;
+                        Debug.Log("turned green");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().material == indigo && timeCount > 60)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = blue;
+                        Debug.Log("turned blue");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().material == violet && timeCount > 30)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = indigo;
+                        Debug.Log("turned indigo");
                     }
                 }
      
