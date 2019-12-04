@@ -23,6 +23,14 @@ public class OnOff : MonoBehaviour
 
     //counts time
     public int timeCount = 0;
+    public int violetCount = 0;
+    public int indigoCount = 0;
+    public int blueCount = 0;
+    public int greenCount = 0;
+    public int yellowCount = 0;
+    public int orangeCount = 0;
+    public int redCount = 0;
+
     //speed of evolution
     public int lengthOfEra = 50;
 
@@ -96,8 +104,22 @@ public class OnOff : MonoBehaviour
                 ranOnce = true;
             }
 
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 100))
+                {
+                    Debug.Log(hit.collider.gameObject);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = !hit.collider.gameObject.GetComponent<MeshRenderer>().enabled;
+                }
+                //Debug.DrawLine(ray.origin, hit.point);
+            }
+
+
             CheckColors();
-            Debug.Log(lengthOfEra);
+            //Debug.Log(lengthOfEra);
 
             if (timeCount % lengthOfEra == 0)
             {
@@ -111,18 +133,26 @@ public class OnOff : MonoBehaviour
                     {
                         //returns number of cube prefab mesh renderers are on next to each element in the grid array
                         numberOn = CheckOnOff(i, j);
-                        Debug.Log(timeCount);
-                        //if (grid[i, j].GetComponent<Renderer>().material == violet)
-                        //{
+                        //Debug.Log(timeCount);
+                        if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet)
+                        {
                             ExecuteLifeRules(numberOn, i, j);
-                            Debug.Log("here");
-                        //}
+                            //Debug.Log("here");
+                        }
   
                      }
                 }
                 FillArray();
             }
+
             timeCount++;
+            violetCount++;
+            indigoCount++;
+            blueCount++;
+            greenCount++;
+            yellowCount++;
+            orangeCount++;
+            redCount++;
         }
             
         
@@ -202,7 +232,7 @@ public class OnOff : MonoBehaviour
     //executes rules to determine if cells/cubes should be on or off for next generation and loads on or off bool values into a seperate grid array without alterting current generation
     public void ExecuteLifeRules(int numberOn, int x, int y)
     {
-        Debug.Log("here2");
+        //Debug.Log("here2");
 
         //Rule 1: Any live cell with fewer than two live neighbours dies, as if by underpopulation.
         if (numberOn < 2 && grid[x, y].GetComponent<MeshRenderer>().enabled == true)
@@ -250,9 +280,10 @@ public class OnOff : MonoBehaviour
                 for (int j = 0; j < height; j++)
                 {
                     grid[i, j].GetComponent<Renderer>().material = violet;
+
                 }
             }
-            Debug.Log("turned violet");
+            //Debug.Log("turned violet");
         }
         else
         {
@@ -260,35 +291,35 @@ public class OnOff : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (grid[i, j].GetComponent<Renderer>().material == orange && timeCount > 180)
+                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && timeCount > 180)
                     {
                         grid[i, j].GetComponent<Renderer>().material = red;
-                        Debug.Log("turned red");
+                        //Debug.Log("turned red");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == yellow && timeCount > 150)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && timeCount > 150)
                     {
                         grid[i, j].GetComponent<Renderer>().material = orange;
-                        Debug.Log("turned orange");
+                        //Debug.Log("turned orange");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == green && timeCount > 120)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && timeCount > 120)
                     {
                         grid[i, j].GetComponent<Renderer>().material = yellow;
-                        Debug.Log("turned yellow");
+                        //Debug.Log("turned yellow");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == blue && timeCount > 90)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && timeCount > 90)
                     {
                         grid[i, j].GetComponent<Renderer>().material = green;
-                        Debug.Log("turned green");
+                        //Debug.Log("turned green");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == indigo && timeCount > 60)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && timeCount > 60)
                     {
                         grid[i, j].GetComponent<Renderer>().material = blue;
-                        Debug.Log("turned blue");
+                        //Debug.Log("turned blue");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().material == violet && timeCount > 30)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && timeCount > 30)
                     {
                         grid[i, j].GetComponent<Renderer>().material = indigo;
-                        Debug.Log("turned indigo");
+                        //Debug.Log("turned indigo");
                     }
                 }
      
