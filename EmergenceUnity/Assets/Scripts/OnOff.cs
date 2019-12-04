@@ -62,9 +62,7 @@ public class OnOff : MonoBehaviour
     {
         if(begin == false)
         {
-
             SelectParameters();
-
         }
 
         if (begin == true)
@@ -72,54 +70,13 @@ public class OnOff : MonoBehaviour
             //set up
             if(ranOnce == false)
             {
-                mainCam.transform.position = new Vector3(width / 2, height / 2, (width + height) * -1/2);
-
-                //initilaize grid size
-                grid = new GameObject[width, height];
-                tempGrid = new bool[width, height];
-
-                //fill each element of grid array with cube prefab
-                for (int i = 0; i < width; i++)
-                {
-                    for (int j = 0; j < height; j++)
-                    {
-                        Vector2 gridPose = new Vector2(i, j);
-                        grid[i, j] = Instantiate(cube);
-                        grid[i, j].transform.Translate(gridPose);
-                        //grid[i, j].GetComponent<Renderer>().material = violet;
-
-
-                        //randomly generate a new grid with some prefabs rendered and others not (on and off)
-                        int randomSeed = UnityEngine.Random.Range(0, 2);
-                        if (randomSeed == 0)
-                        {
-                            grid[i, j].GetComponent<MeshRenderer>().enabled = true;
-                        }
-                        else
-                        {
-                            grid[i, j].GetComponent<MeshRenderer>().enabled = false;
-                        }
-                    }
-                }
+                SetUp();
                 ranOnce = true;
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, 200))
-                {
-                    Debug.Log(hit.collider.gameObject);
-                    //hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = !hit.collider.gameObject.GetComponent<MeshRenderer>().enabled;
-
-                }
-            }
-
+            CheckForUserInteraction();
 
             CheckColors();
-            //Debug.Log(lengthOfEra);
 
             if (timeCount % lengthOfEra == 0)
             {
@@ -217,17 +174,130 @@ public class OnOff : MonoBehaviour
 
     }
 
+    public void SetUp()
+    {
+        mainCam.transform.position = new Vector3(width / 2, height / 2, (width + height) * -1 / 2);
+
+        //initilaize grid size
+        grid = new GameObject[width, height];
+        tempGrid = new bool[width, height];
+
+        //fill each element of grid array with cube prefab
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Vector2 gridPose = new Vector2(i, j);
+                grid[i, j] = Instantiate(cube);
+                grid[i, j].name = i + "_" + j;
+                grid[i, j].GetComponent<CubeInfo>().xIndex = i;
+                grid[i, j].GetComponent<CubeInfo>().yIndex = j;
+
+                grid[i, j].transform.Translate(gridPose);
+                //grid[i, j].GetComponent<Renderer>().material = violet;
+
+
+                //randomly generate a new grid with some prefabs rendered and others not (on and off)
+                int randomSeed = UnityEngine.Random.Range(0, 2);
+                if (randomSeed == 0)
+                {
+                    grid[i, j].GetComponent<MeshRenderer>().enabled = true;
+                }
+                else
+                {
+                    grid[i, j].GetComponent<MeshRenderer>().enabled = false;
+                }
+            }
+        }
+    }
+
+    public void CheckForUserInteraction()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 200))
+            {
+                int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
+                int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
+            }
+
+        }
+    }
+
+    //determine if colors of cubes should be changed and if so, change them
+    public void CheckColors()
+    {
+        if (timeCount == 0)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    grid[i, j].GetComponent<Renderer>().material = violet;
+
+                }
+            }
+            //Debug.Log("turned violet");
+        }
+        else
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && orangeCount > 300)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = red;
+                        //Debug.Log("turned red");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && yellowCount > 250)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = orange;
+                        //Debug.Log("turned orange");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && greenCount > 200)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = yellow;
+                        //Debug.Log("turned yellow");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && blueCount > 150)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = green;
+                        //Debug.Log("turned green");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && indigoCount > 100)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = blue;
+                        //Debug.Log("turned blue");
+                    }
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && violetCount > 50)
+                    {
+                        grid[i, j].GetComponent<Renderer>().material = indigo;
+                        //Debug.Log("turned indigo");
+                    }
+                }
+
+
+            }
+        }
+
+    }
+
     //Determines how many cubes are on or off relative to each each cube element in the grid array add returns that number to int count
     public int CheckOnOff(int x, int y)
     {
         int count = 0;
 
         //boundaries
-        if (x == 0 || x == (width-1))
+        if (x == 0 || x == (width - 1))
         {
             return 0;
         }
-        if (y == 0 || y == (height-1))
+        if (y == 0 || y == (height - 1))
         {
             return 0;
         }
@@ -302,76 +372,11 @@ public class OnOff : MonoBehaviour
             }
         }
     }
-    
+
     public void OnButtonClicked()
     {
         timeCount = 0;  //resets timeCount in the case that the user resets the game
         begin = true;
-    }
-    
-
-    //determine if colors of cubes should be changed and if so, change them
-    public void CheckColors()
-    {
-        if (timeCount == 0)
-        {
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    grid[i, j].GetComponent<Renderer>().material = violet;
-
-                }
-            }
-            //Debug.Log("turned violet");
-        }
-        else
-        {
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && orangeCount > 300)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = red;
-                        //Debug.Log("turned red");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && yellowCount > 250)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = orange;
-                        //Debug.Log("turned orange");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && greenCount > 200)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = yellow;
-                        //Debug.Log("turned yellow");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && blueCount > 150)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = green;
-                        //Debug.Log("turned green");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && indigoCount > 100)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = blue;
-                        //Debug.Log("turned blue");
-                    }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && violetCount > 50)
-                    {
-                        grid[i, j].GetComponent<Renderer>().material = indigo;
-                        //Debug.Log("turned indigo");
-                    }
-                }
-     
-
-            }
-        }
-        
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        
     }
 
 }

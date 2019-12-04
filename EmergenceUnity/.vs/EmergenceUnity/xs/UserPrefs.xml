@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{E6E58030-1037-B5F4-CD48-074E2529CE42}|">
   <MonoDevelop.Ide.ItemProperties.EmergenceUnity PreferredExecutionTarget="ffaf250d-6740-43ff-8f63-975acad80e14" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/OnOff.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/CubeInfo.cs">
     <Files>
-      <File FileName="Assets/Scripts/OnOff.cs" Line="30" Column="32" />
+      <File FileName="Assets/Scripts/OnOff.cs" Line="192" Column="47" />
+      <File FileName="Assets/Scripts/CubeInfo.cs" Line="7" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -10,7 +11,7 @@
           <Node name="EmergenceUnity" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="OnOff.cs" selected="True" />
+                <Node name="CubeInfo.cs" selected="True" />
               </Node>
             </Node>
           </Node>
