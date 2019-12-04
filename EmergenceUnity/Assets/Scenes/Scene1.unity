@@ -679,8 +679,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1646899769}
   m_HandleRect: {fileID: 1409991351}
   m_Direction: 0
-  m_MinValue: 3
-  m_MaxValue: 100
+  m_MinValue: 10
+  m_MaxValue: 70
   m_WholeNumbers: 1
   m_Value: 10
   m_OnValueChanged:
@@ -790,7 +790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1425.2, y: -73.70001}
+  m_AnchoredPosition: {x: 1425.1997, y: -73.700195}
   m_SizeDelta: {x: 160, y: 24.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &788389375
@@ -832,8 +832,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 770740857}
   m_HandleRect: {fileID: 2008124901}
   m_Direction: 0
-  m_MinValue: 3
-  m_MaxValue: 100
+  m_MinValue: 10
+  m_MaxValue: 70
   m_WholeNumbers: 1
   m_Value: 10
   m_OnValueChanged:
@@ -1411,7 +1411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1444.9, y: -30.799927}
+  m_AnchoredPosition: {x: 1444.8999, y: -30.799805}
   m_SizeDelta: {x: 149.1, y: 61.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1560838981
@@ -1941,12 +1941,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
-  initialized: 0
+  ranOnce: 0
   cube: {fileID: 1854804443150810, guid: 2ed62318655914089b3c31a518de6b7f, type: 2}
   mainCam: {fileID: 2043625572}
   width: 10
   height: 10
   timeCount: 0
+  violetCount: 0
+  indigoCount: 0
+  blueCount: 0
+  greenCount: 0
+  yellowCount: 0
+  orangeCount: 0
+  redCount: 0
   lengthOfEra: 50
   widthText: {fileID: 1560838981}
   heightText: {fileID: 1259083479}
@@ -1961,7 +1968,6 @@ MonoBehaviour:
   yellow: {fileID: 2100000, guid: df23e041d1a7543c8b8b5ea4728e5977, type: 2}
   orange: {fileID: 2100000, guid: 5ac10d90d689745e287155a80ad9f05a, type: 2}
   red: {fileID: 2100000, guid: 1e190a64bdc574bc28627764dfbcf8c5, type: 2}
-  lastMaterial: {fileID: 0}
 --- !u!1 &2077336092
 GameObject:
   m_ObjectHideFlags: 0

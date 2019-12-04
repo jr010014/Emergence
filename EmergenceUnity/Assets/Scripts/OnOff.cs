@@ -328,32 +328,32 @@ public class OnOff : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && orangeCount > 180)
+                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && orangeCount > 300)
                     {
                         grid[i, j].GetComponent<Renderer>().material = red;
                         //Debug.Log("turned red");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && yellowCount > 150)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && yellowCount > 250)
                     {
                         grid[i, j].GetComponent<Renderer>().material = orange;
                         //Debug.Log("turned orange");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && greenCount > 120)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && greenCount > 200)
                     {
                         grid[i, j].GetComponent<Renderer>().material = yellow;
                         //Debug.Log("turned yellow");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && blueCount > 90)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && blueCount > 150)
                     {
                         grid[i, j].GetComponent<Renderer>().material = green;
                         //Debug.Log("turned green");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && indigoCount > 60)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && indigoCount > 100)
                     {
                         grid[i, j].GetComponent<Renderer>().material = blue;
                         //Debug.Log("turned blue");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && violetCount > 30)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && violetCount > 50)
                     {
                         grid[i, j].GetComponent<Renderer>().material = indigo;
                         //Debug.Log("turned indigo");
