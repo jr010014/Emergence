@@ -109,10 +109,11 @@ public class OnOff : MonoBehaviour
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, 100))
+                if (Physics.Raycast(ray, out hit, 200))
                 {
                     Debug.Log(hit.collider.gameObject);
-                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = !hit.collider.gameObject.GetComponent<MeshRenderer>().enabled;
+                    //hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = !hit.collider.gameObject.GetComponent<MeshRenderer>().enabled;
+
                 }
             }
 
@@ -132,6 +133,8 @@ public class OnOff : MonoBehaviour
                     {
                         //returns number of cube prefab mesh renderers are on next to each element in the grid array
                         numberOn = CheckOnOff(i, j);
+
+                        //Frequency of ExecutesLifeRules changes according to color of cube
                         if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet)
                         {
                             ExecuteLifeRules(numberOn, i, j);
@@ -363,6 +366,11 @@ public class OnOff : MonoBehaviour
 
             }
         }
+        
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
         
     }
 
