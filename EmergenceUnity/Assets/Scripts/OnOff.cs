@@ -54,21 +54,21 @@ public class OnOff : MonoBehaviour
 
     void Start()
     {
-    
+
 
     }
 
     void Update()
     {
-        if(begin == false)
+        if (begin == false)
         {
             SelectParameters();
         }
 
         if (begin == true)
-        {  
+        {
             //set up
-            if(ranOnce == false)
+            if (ranOnce == false)
             {
                 SetUp();
                 ranOnce = true;
@@ -98,7 +98,7 @@ public class OnOff : MonoBehaviour
                         }
                         if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo)
                         {
-                            if(timeCount % 10 == 0)
+                            if (timeCount % 10 == 0)
                             {
                                 ExecuteLifeRules(numberOn, i, j);
                             }
@@ -146,7 +146,7 @@ public class OnOff : MonoBehaviour
 
             timeCount++;
 
-            for(int i = 0; i < width; i++)
+            for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
@@ -160,11 +160,11 @@ public class OnOff : MonoBehaviour
                 }
             }
         }
-            
-        
+
+
 
     }
-    
+
 
     //allows user to select parameter via the user interface
     public void SelectParameters()
@@ -177,7 +177,7 @@ public class OnOff : MonoBehaviour
         heightText.text = "Height = " + height;
         eraText.text = "Length of Era = " + lengthOfEra;
 
-        
+
 
     }
 
@@ -227,13 +227,15 @@ public class OnOff : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 200))
             {
-                if(hit.collider.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                if (hit.collider.gameObject.GetComponent<MeshRenderer>().enabled == false)
                 {
-                    int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
-                    int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
-
-                    ApplyForce(cubeHitX, cubeHitY);
+                    hit.collider.gameObject.GetComponent<MeshRenderer>().enabled = true;
                 }
+
+                int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
+                int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
+
+                ApplyForce(cubeHitX, cubeHitY);
 
             }
 
@@ -242,8 +244,139 @@ public class OnOff : MonoBehaviour
 
     public void ApplyForce(int i, int j)
     {
-        grid[i, j].GetComponent<Renderer>().material = violet;
+        
+        for (int indexi = -2; i < 2; indexi++)
+        {
+            for (int indexj = -1; j < 1; indexj++)
+            {
+                if (grid[i + indexi, j + indexj].GetComponent<MeshRenderer>().enabled == false)
+                {
+                    grid[i + indexi, j + indexj].GetComponent<MeshRenderer>().enabled = true;
+                }
+                grid[i + indexi, j + indexj].GetComponent<Renderer>().material = indigo;
+                ResetColorCount(i + indexi, j + indexj, false, true, true, true, true, true, true);
+            }
+        }
+        for (int indexi = -1; i < 1; indexi++)
+        {
+            for (int indexj = -1; j < 1; indexj++)
+            {
+                if (grid[i + indexi, j + indexj].GetComponent<MeshRenderer>().enabled == false)
+                {
+                    grid[i + indexi, j + indexj].GetComponent<MeshRenderer>().enabled = true;
+                }
+                grid[i + indexi, j + indexj].GetComponent<Renderer>().material = violet;
+                ResetColorCount(i + indexi, j + indexj, true, true, true, true, true, true, true);
+            }
+        }
 
+
+        /*if(grid[i,j].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i, j].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i, j].GetComponent<Renderer>().material = violet;
+        ResetColorCount(i, j, true, true, true, true, true, true, true);
+
+        if (grid[i+1, j].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i+1, j].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i+1, j].GetComponent<Renderer>().material = violet;
+        ResetColorCount(i+1, j, true, true, true, true, true, true, true);
+
+        if (grid[i-1, j].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i-1, j].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i-1, j].GetComponent<Renderer>().material = violet;
+        ResetColorCount(i-1, j, true, true, true, true, true, true, true);
+
+        if (grid[i, j+1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i, j+1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i, j+1].GetComponent<Renderer>().material = violet;
+        ResetColorCount(i, j+1, true, true, true, true, true, true, true);
+
+        if (grid[i, j-1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i, j-1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i, j-1].GetComponent<Renderer>().material = violet;
+        ResetColorCount(i, j-1, true, true, true, true, true, true, true);
+
+        //Ring 2
+        if (grid[i+2, j].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i+2, j].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i+2, j].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i+2, j, false, true, true, true, true, true, true);
+
+        if (grid[i+2, j+1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i+2, j+1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i+2, j+1].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i+2, j+1, false, true, true, true, true, true, true);
+
+        if (grid[i+1, j+1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i+1, j+1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i+1, j+1].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i+1, j+1, false, true, true, true, true, true, true);
+
+        if (grid[i+1, j+2].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i+1, j+2].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i+1, j+2].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i+1, j+2, false, true, true, true, true, true, true);
+
+        if (grid[i, j+2].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i, j+2].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i, j+2].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i, j+2, false, true, true, true, true, true, true);
+
+        if (grid[i-1, j+2].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i-1, j+2].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i-1, j+2].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i-1, j+2, false, true, true, true, true, true, true);
+
+        if (grid[i-1, j+1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i - 1, j + 1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i - 1, j + 1].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i-1, j+1, false, true, true, true, true, true, true);
+
+        if (grid[i -2, j + 1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i -2, j + 1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i -2, j + 1].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i -2, j + 1, false, true, true, true, true, true, true);
+
+        if (grid[i -2, j].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i -2, j].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i -2, j].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i -2, j, false, true, true, true, true, true, true);
+
+        if (grid[i-2, j -1].GetComponent<MeshRenderer>().enabled == false)
+        {
+            grid[i-2, j -1].GetComponent<MeshRenderer>().enabled = true;
+        }
+        grid[i-2, j -1].GetComponent<Renderer>().material = indigo;
+        ResetColorCount(i-2, j -1, false, true, true, true, true, true, true);
+        */
     }
 
     //determine if colors of cubes should be changed and if so, change them
@@ -256,11 +389,10 @@ public class OnOff : MonoBehaviour
                 for (int j = 0; j < height; j++)
                 {
                     grid[i, j].GetComponent<Renderer>().material = violet;
-                    
+
 
                 }
             }
-            //Debug.Log("turned violet");
         }
         else
         {
@@ -382,13 +514,45 @@ public class OnOff : MonoBehaviour
 
     //adjust new grid based on population of old grid
     public void FillArray()
-    { 
-        for (int x = 0; x< width; x++)
+    {
+        for (int x = 0; x < width; x++)
         {
-            for (int y = 0; y< height; y++)
+            for (int y = 0; y < height; y++)
             {
                 grid[x, y].GetComponent<MeshRenderer>().enabled = tempGrid[x, y];
             }
+        }
+    }
+
+    public void ResetColorCount(int i, int j, bool violet, bool indigo, bool blue, bool green, bool yellow, bool orange, bool red)
+    {
+        if(violet == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().violetCount = 0;
+        }
+        if (indigo == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().indigoCount = 0;
+        }
+        if (blue == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().blueCount = 0;
+        }
+        if (green == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().greenCount = 0;
+        }
+        if (yellow == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().yellowCount = 0;
+        }
+        if (orange == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().orangeCount = 0;
+        }
+        if (red == true)
+        {
+            grid[i, j].GetComponent<CubeInfo>().redCount = 0;
         }
     }
 
