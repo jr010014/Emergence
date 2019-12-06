@@ -173,8 +173,8 @@ public class OnOff : MonoBehaviour
         height = Convert.ToInt32(heightSlider.value);
         lengthOfEra = Convert.ToInt32(eraSlider.value);
 
-        widthText.text = "Width = " + width;
-        heightText.text = "Height = " + height;
+        widthText.text = "Grid Width = " + width;
+        heightText.text = "Grid Height = " + height;
         eraText.text = "Length of Era = " + lengthOfEra;
 
 
