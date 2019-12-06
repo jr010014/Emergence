@@ -247,7 +247,7 @@ public class OnOff : MonoBehaviour
         
         for (int indexi = -2; i < 2; indexi++)
         {
-            for (int indexj = -1; j < 1; indexj++)
+            for (int indexj = -2; j < 2; indexj++)
             {
                 if (grid[i + indexi, j + indexj].GetComponent<MeshRenderer>().enabled == false)
                 {
