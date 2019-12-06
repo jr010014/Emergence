@@ -23,13 +23,13 @@ public class OnOff : MonoBehaviour
 
     //counts time
     public int timeCount = 0;
-    public int violetCount = 0;
-    public int indigoCount = 0;
-    public int blueCount = 0;
-    public int greenCount = 0;
-    public int yellowCount = 0;
-    public int orangeCount = 0;
-    public int redCount = 0;
+    //public int violetCount = 0;
+    //public int indigoCount = 0;
+    //public int blueCount = 0;
+    //public int greenCount = 0;
+    //public int yellowCount = 0;
+    //public int orangeCount = 0;
+    //public int redCount = 0;
 
     //speed of evolution
     public int lengthOfEra = 50;
@@ -145,13 +145,20 @@ public class OnOff : MonoBehaviour
             }
 
             timeCount++;
-            violetCount++;
-            indigoCount++;
-            blueCount++;
-            greenCount++;
-            yellowCount++;
-            orangeCount++;
-            redCount++;
+
+            for(int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    grid[i, j].GetComponent<CubeInfo>().violetCount++;
+                    grid[i, j].GetComponent<CubeInfo>().indigoCount++;
+                    grid[i, j].GetComponent<CubeInfo>().blueCount++;
+                    grid[i, j].GetComponent<CubeInfo>().greenCount++;
+                    grid[i, j].GetComponent<CubeInfo>().yellowCount++;
+                    grid[i, j].GetComponent<CubeInfo>().orangeCount++;
+                    grid[i, j].GetComponent<CubeInfo>().redCount++;
+                }
+            }
         }
             
         
@@ -213,7 +220,6 @@ public class OnOff : MonoBehaviour
 
     public void CheckForUserInteraction()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -221,11 +227,23 @@ public class OnOff : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 200))
             {
-                int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
-                int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
+                if(hit.collider.gameObject.GetComponent<MeshRenderer>().enabled == true)
+                {
+                    int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
+                    int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
+
+                    ApplyForce(cubeHitX, cubeHitY);
+                }
+
             }
 
         }
+    }
+
+    public void ApplyForce(int i, int j)
+    {
+        grid[i, j].GetComponent<Renderer>().material = violet;
+
     }
 
     //determine if colors of cubes should be changed and if so, change them
@@ -238,6 +256,7 @@ public class OnOff : MonoBehaviour
                 for (int j = 0; j < height; j++)
                 {
                     grid[i, j].GetComponent<Renderer>().material = violet;
+                    
 
                 }
             }
@@ -249,32 +268,32 @@ public class OnOff : MonoBehaviour
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && orangeCount > 300)
+                    if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && grid[i, j].GetComponent<CubeInfo>().orangeCount > 300)
                     {
                         grid[i, j].GetComponent<Renderer>().material = red;
                         //Debug.Log("turned red");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && yellowCount > 250)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && grid[i, j].GetComponent<CubeInfo>().yellowCount > 250)
                     {
                         grid[i, j].GetComponent<Renderer>().material = orange;
                         //Debug.Log("turned orange");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && greenCount > 200)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && grid[i, j].GetComponent<CubeInfo>().greenCount > 200)
                     {
                         grid[i, j].GetComponent<Renderer>().material = yellow;
                         //Debug.Log("turned yellow");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && blueCount > 150)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && grid[i, j].GetComponent<CubeInfo>().blueCount > 150)
                     {
                         grid[i, j].GetComponent<Renderer>().material = green;
                         //Debug.Log("turned green");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && indigoCount > 100)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && grid[i, j].GetComponent<CubeInfo>().indigoCount > 100)
                     {
                         grid[i, j].GetComponent<Renderer>().material = blue;
                         //Debug.Log("turned blue");
                     }
-                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && violetCount > 50)
+                    else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && grid[i, j].GetComponent<CubeInfo>().violetCount > 50)
                     {
                         grid[i, j].GetComponent<Renderer>().material = indigo;
                         //Debug.Log("turned indigo");

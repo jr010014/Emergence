@@ -163,6 +163,7 @@
 -define:ENABLE_NATIVE_ARRAY_CHECKS
 -define:UNITY_TEAM_LICENSE
 -define:ENABLE_VSTU
+'Assets/Scripts/CubeInfo.cs'
 'Assets/Scripts/OnOff.cs'
 -r:'/Applications/Unity/Hub/Editor/2017.4.32f1/Unity.app/Contents/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Hub/Editor/2017.4.32f1/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.Linq.dll'
