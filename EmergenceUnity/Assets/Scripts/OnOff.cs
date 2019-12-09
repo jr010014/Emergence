@@ -173,9 +173,9 @@ public class OnOff : MonoBehaviour
         height = Convert.ToInt32(heightSlider.value);
         lengthOfEra = Convert.ToInt32(eraSlider.value);
 
-        widthText.text = "Grid Width = " + width;
-        heightText.text = "Grid Height = " + height;
-        eraText.text = "Length of Era = " + lengthOfEra;
+        widthText.text = "Universe Width = " + width;
+        heightText.text = "Universe Height = " + height;
+        eraText.text = "Universe of Era = " + lengthOfEra;
 
 
 
@@ -248,7 +248,7 @@ public class OnOff : MonoBehaviour
         {
             for (int indexj = -7; indexj < 7; indexj++)
             {
-                if(i + indexi > width || j + indexj > height || i + indexi < 0 || j + indexj < 0)
+                if (i + indexi > width || j + indexj > height || i + indexi < 0 || j + indexj < 0)
                 {
                     //do nothing
                 }
@@ -261,7 +261,7 @@ public class OnOff : MonoBehaviour
                     grid[i + indexi, j + indexj].GetComponent<Renderer>().material = red;
                     ResetColorCount(i + indexi, j + indexj, false, false, false, false, false, false, true);
                 }
-                
+
             }
         }
         for (int indexi = -6; indexi < 6; indexi++)
@@ -527,7 +527,7 @@ public class OnOff : MonoBehaviour
 
     public void ResetColorCount(int i, int j, bool violet, bool indigo, bool blue, bool green, bool yellow, bool orange, bool red)
     {
-        if(violet == true)
+        if (violet == true)
         {
             grid[i, j].GetComponent<CubeInfo>().violetCount = 0;
         }
@@ -557,10 +557,29 @@ public class OnOff : MonoBehaviour
         }
     }
 
-    public void OnButtonClicked()
+    public void OnBeginButtonClicked()
     {
         timeCount = 0;  //resets timeCount in the case that the user resets the game
         begin = true;
     }
 
+    public void OnResetButtonClicked()
+    {
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                Destroy(grid[i, j]);
+            }
+        }
+        timeCount = 0;
+        begin = false;
+        ranOnce = false;
+    }
+
+    public void OnAddAdditionalUniverseButtonClicked()
+    {
+        timeCount = 0;
+        ranOnce = false;
+    }
 }
