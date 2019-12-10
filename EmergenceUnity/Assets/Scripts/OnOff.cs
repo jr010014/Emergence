@@ -13,9 +13,11 @@ public class OnOff : MonoBehaviour
     public GameObject cube;
     public Camera mainCam;
 
-    //grid size: width and height
+    //grid parameters
     public int width = 10;
     public int height = 10;
+    //public int universeNumber = 0;
+    //public int universeNumMax = 1;
 
     //declare array for grid
     public GameObject[,] grid;
@@ -23,13 +25,6 @@ public class OnOff : MonoBehaviour
 
     //counts time
     public int timeCount = 0;
-    //public int violetCount = 0;
-    //public int indigoCount = 0;
-    //public int blueCount = 0;
-    //public int greenCount = 0;
-    //public int yellowCount = 0;
-    //public int orangeCount = 0;
-    //public int redCount = 0;
 
     //speed of evolution
     public int lengthOfEra = 50;
@@ -107,15 +102,15 @@ public class OnOff : MonoBehaviour
                         {
                             if (timeCount % 20 == 0)
                             {
-                                ExecuteLifeRules(numberOn, i, j);
+                               ExecuteLifeRules(numberOn, i, j);
                             }
                         }
                         if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green)
                         {
-                            if (timeCount % 30 == 0)
-                            {
-                                ExecuteLifeRules(numberOn, i, j);
-                            }
+                           if (timeCount % 30 == 0)
+                           {
+                               ExecuteLifeRules(numberOn, i, j);
+                           }
                         }
                         if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow)
                         {
@@ -138,14 +133,12 @@ public class OnOff : MonoBehaviour
                                 ExecuteLifeRules(numberOn, i, j);
                             }
                         }
-
                     }
                 }
                 FillArray();
             }
 
             timeCount++;
-
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -156,7 +149,7 @@ public class OnOff : MonoBehaviour
                     grid[i, j].GetComponent<CubeInfo>().greenCount++;
                     grid[i, j].GetComponent<CubeInfo>().yellowCount++;
                     grid[i, j].GetComponent<CubeInfo>().orangeCount++;
-                    grid[i, j].GetComponent<CubeInfo>().redCount++;
+                    grid[i, j].GetComponent<CubeInfo>().redCount++;  
                 }
             }
         }
@@ -177,8 +170,6 @@ public class OnOff : MonoBehaviour
         heightText.text = "Universe Height = " + height;
         eraText.text = "Universe of Era = " + lengthOfEra;
 
-
-
     }
 
     public void SetUp()
@@ -190,18 +181,18 @@ public class OnOff : MonoBehaviour
         tempGrid = new bool[width, height];
 
         //fill each element of grid array with cube prefab
-        for (int i = 0; i < width; i++)
+        for (int j = 0; j < height; j++)
         {
-            for (int j = 0; j < height; j++)
+            for (int i = 0; i < width; i++)
             {
                 Vector2 gridPose = new Vector2(i, j);
                 grid[i, j] = Instantiate(cube);
+
                 grid[i, j].name = i + "_" + j;
                 grid[i, j].GetComponent<CubeInfo>().xIndex = i;
                 grid[i, j].GetComponent<CubeInfo>().yIndex = j;
 
                 grid[i, j].transform.Translate(gridPose);
-                //grid[i, j].GetComponent<Renderer>().material = violet;
 
 
                 //randomly generate a new grid with some prefabs rendered and others not (on and off)
@@ -214,8 +205,9 @@ public class OnOff : MonoBehaviour
                 {
                     grid[i, j].GetComponent<MeshRenderer>().enabled = false;
                 }
-            }
+            } 
         }
+
     }
 
     public void CheckForUserInteraction()
@@ -235,14 +227,14 @@ public class OnOff : MonoBehaviour
                 int cubeHitX = hit.collider.gameObject.GetComponent<CubeInfo>().xIndex;
                 int cubeHitY = hit.collider.gameObject.GetComponent<CubeInfo>().yIndex;
 
-                ApplyForce(cubeHitX, cubeHitY);
+                ApplyRadialForce(cubeHitX, cubeHitY);
 
             }
 
         }
     }
 
-    public void ApplyForce(int i, int j)
+    public void ApplyRadialForce(int i, int j)
     {
         for (int indexi = -7; indexi < 7; indexi++)
         {
@@ -390,8 +382,6 @@ public class OnOff : MonoBehaviour
                 for (int j = 0; j < height; j++)
                 {
                     grid[i, j].GetComponent<Renderer>().material = violet;
-
-
                 }
             }
         }
@@ -404,40 +394,33 @@ public class OnOff : MonoBehaviour
                     if (grid[i, j].GetComponent<Renderer>().sharedMaterial == orange && grid[i, j].GetComponent<CubeInfo>().orangeCount > 300)
                     {
                         grid[i, j].GetComponent<Renderer>().material = red;
-                        //Debug.Log("turned red");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == yellow && grid[i, j].GetComponent<CubeInfo>().yellowCount > 250)
                     {
                         grid[i, j].GetComponent<Renderer>().material = orange;
-                        //Debug.Log("turned orange");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == green && grid[i, j].GetComponent<CubeInfo>().greenCount > 200)
                     {
                         grid[i, j].GetComponent<Renderer>().material = yellow;
-                        //Debug.Log("turned yellow");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == blue && grid[i, j].GetComponent<CubeInfo>().blueCount > 150)
                     {
                         grid[i, j].GetComponent<Renderer>().material = green;
-                        //Debug.Log("turned green");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == indigo && grid[i, j].GetComponent<CubeInfo>().indigoCount > 100)
                     {
                         grid[i, j].GetComponent<Renderer>().material = blue;
-                        //Debug.Log("turned blue");
                     }
                     else if (grid[i, j].GetComponent<Renderer>().sharedMaterial == violet && grid[i, j].GetComponent<CubeInfo>().violetCount > 50)
                     {
                         grid[i, j].GetComponent<Renderer>().material = indigo;
-                        //Debug.Log("turned indigo");
                     }
                 }
-
-
             }
         }
-
     }
+
+    
 
     //Determines how many cubes are on or off relative to each each cube element in the grid array add returns that number to int count
     public int CheckOnOff(int x, int y)
@@ -569,17 +552,21 @@ public class OnOff : MonoBehaviour
         {
             for (int j = 0; j < height; j++)
             {
-                Destroy(grid[i, j]);
+                    Destroy(grid[i, j]);
             }
         }
         timeCount = 0;
         begin = false;
         ranOnce = false;
+        //universeNumber = 0;
+        //universeNumMax = 1;
     }
 
     public void OnAddAdditionalUniverseButtonClicked()
     {
         timeCount = 0;
         ranOnce = false;
+        //universeNumber++;
+        //universeNumMax++;
     }
 }
